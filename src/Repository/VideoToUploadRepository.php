@@ -15,26 +15,29 @@ class VideoToUploadRepository
         int $youtubeVideoId
     ): void
     {
-        $this->connection->start();
         $postQueryParams = [
             'account_id' => $quoraAccountId,
             'quora_id' => $quoraId
         ];
-        $findPostIdQuery = ['
-            SELECT id FROM quora_post
-            WHERE account_id = :account_id
-            AND quora_id = :quora_id
-            ;
-        ', $postQueryParams];
-        $queriedIds = $this->connection->query(...$findPostIdQuery);
+        $findPostIdQuery = [
+            $this->fetcher
+                ->createQuery('quora_post')
+                ->select('id')
+                ->where('account_id = :account_id AND quora_id = :quora_id')
+            ,
+            $postQueryParams
+        ];
+        $queriedIds = $this->fetcher->query(...$findPostIdQuery);
         
         if (! $queriedIds) {
-            $this->connection->exec('
-                INSERT INTO quora_post (account_id, quora_id)
-                VALUES (:account_id, :quora_id)
-                ;
-            ', $postQueryParams);
-            $queriedIds = $this->connection->query(...$findPostIdQuery);
+            $this->fetcher->exec(
+                $this->fetcher
+                    ->createQuery('quora_post')
+                    ->insertInto('account_id, quora_id', ':account_id, :quora_id')
+                ,
+                $postQueryParams
+            );
+            $queriedIds = $this->fetcher->query(...$findPostIdQuery);
         }
 
         $postId = (int) $queriedIds[0]['id'];
@@ -44,21 +47,23 @@ class VideoToUploadRepository
             'youtube_id' => $youtubeVideoId
         ];
 
-        $queriedPivotIds = $this->connection->query('
-            SELECT id FROM quora_post_youtube_video
-            WHERE quora_id = :quora_id
-            AND youtube_id = :youtube_id
-            ;
-        ', $pivotQueryParams);
+        $queriedPivotIds = $this->fetcher->query(
+            $this->fetcher
+                ->createQuery('quora_post_youtube_video')
+                ->select('id')
+                ->where('quora_id = :quora_id AND youtube_id = :youtube_id')
+            ,
+            $pivotQueryParams
+        );
         
         if (! $queriedPivotIds) {
-            $this->connection->exec('
-                INSERT INTO quora_post_youtube_video (quora_id, youtube_id)
-                VALUES (:quora_id, :youtube_id)
-                ;
-            ', $pivotQueryParams);
+            $this->fetcher->exec(
+                $this->fetcher
+                    ->createQuery('quora_post_youtube_video')
+                    ->insertInto('quora_id, youtube_id', ':quora_id, :youtube_id')
+                ,
+                $pivotQueryParams
+            );
         }
-
-        $this->connection->stop();
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c4fe7e180bca91a00de8058c1a4a754",
+    "content-hash": "8de9ace4953514fe8f55aac7c5859ebd",
     "packages": [
         {
             "name": "neutronstars/database-sql",
@@ -124,6 +124,46 @@
                 "source": "https://github.com/pierreminiggio/database-fetcher/tree/1.0.0"
             },
             "time": "2021-01-17T10:03:16+00:00"
+        },
+        {
+            "name": "pierreminiggio/french-question-definer",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pierreminiggio/french-question-definer.git",
+                "reference": "3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pierreminiggio/french-question-definer/zipball/3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6",
+                "reference": "3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.11"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PierreMiniggio\\FrenchQuestionDefiner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Pierre MINIGGIO",
+                    "email": "pierre@miniggiodev.fr"
+                }
+            ],
+            "description": "Check if it's a french question",
+            "support": {
+                "issues": "https://github.com/pierreminiggio/french-question-definer/issues",
+                "source": "https://github.com/pierreminiggio/french-question-definer/tree/1.0.0"
+            },
+            "time": "2021-01-30T20:58:13+00:00"
         }
     ],
     "packages-dev": [],

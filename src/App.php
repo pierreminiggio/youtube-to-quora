@@ -3,6 +3,8 @@
 namespace PierreMiniggio\YoutubeToQuora;
 
 use PierreMiniggio\DatabaseFetcher\DatabaseFetcher;
+use PierreMiniggio\FrenchQuestionDefiner\FrenchQuestionDefiner;
+use PierreMiniggio\YoutubeToQuora\Repository\NonUploadableVideoRepository;
 use PierreMiniggio\YoutubeToQuora\Connection\DatabaseConnectionFactory;
 use PierreMiniggio\YoutubeToQuora\Repository\LinkedChannelRepository;
 use PierreMiniggio\YoutubeToQuora\Repository\NonUploadedVideoRepository;
@@ -10,6 +12,14 @@ use PierreMiniggio\YoutubeToQuora\Repository\VideoToUploadRepository;
 
 class App
 {
+
+    private FrenchQuestionDefiner $questionDefiner;
+
+    public function __construct()
+    {
+        $this->questionDefiner = new FrenchQuestionDefiner();
+    }
+
     public function run(): int
     {
         set_time_limit(1200);
@@ -27,6 +37,7 @@ class App
         $databaseFetcher = new DatabaseFetcher((new DatabaseConnectionFactory())->makeFromConfig($config['db']));
         $channelRepository = new LinkedChannelRepository($databaseFetcher);
         $nonUploadedVideoRepository = new NonUploadedVideoRepository($databaseFetcher);
+        $nonUploadableVideoRepository = new NonUploadableVideoRepository($databaseFetcher);
         $videoToUploadRepository = new VideoToUploadRepository($databaseFetcher);
 
         $linkedChannels = $channelRepository->findAll();
@@ -46,12 +57,23 @@ class App
             foreach ($postsToPost as $postToPost) {
                 echo PHP_EOL . 'Posting ' . $postToPost['title'] . ' ...';
 
+
+                $question = $this->findPostableQuestionFromTitle($postToPost['title']);
+
+                if ($question === null) {
+                    $nonUploadableVideoRepository->markAsNonUploadableIfNeeded((int) $postToPost['id']);
+                    continue;
+                }
+
                 $curl = curl_init();
                 curl_setopt_array($curl, [
                     CURLOPT_RETURNTRANSFER => 1,
                     CURLOPT_URL => $linkedChannel['api_url'],
                     CURLOPT_POST => 1,
-                    CURLOPT_POSTFIELDS => $postToPost['title'] . ' ' . $postToPost['url'],
+                    CURLOPT_POSTFIELDS => json_encode([
+                        'content' => $question,
+                        'link' => $postToPost['url']
+                    ]),
                     CURLOPT_HTTPHEADER => [
                         'Content-Type: application/json',
                         'Authorization: Bearer ' . $linkedChannel['api_token']
@@ -70,6 +92,7 @@ class App
                     echo PHP_EOL . $postToPost['title'] . ' posted !';
                 } else {
                     echo PHP_EOL . 'Error while posting ' . $postToPost['title'] . ' : ' . $res;
+                    $nonUploadableVideoRepository->markAsNonUploadableIfNeeded((int) $postToPost['id']);
                 }
             }
 
@@ -77,5 +100,22 @@ class App
         }
 
         return $code;
+    }
+
+    private function findPostableQuestionFromTitle(string $title): ?string
+    {
+        $titleParts = preg_split('/( \- |♥| \? | \| | \! )/', $title);
+
+        foreach ($titleParts as $titlePart) {
+            if (empty($titlePart)) {
+                continue;
+            }
+
+            if ($this->questionDefiner->isQuestion($titlePart)) {
+                return trim(str_replace('?', '', $titlePart));
+            }
+        }
+        
+        return null;
     }
 }
