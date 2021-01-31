@@ -29,6 +29,7 @@ class NonUploadedVideoRepository
             ->where('y.channel_id = :channel_id AND yvuoq.id IS NULL' . (
                 $postedQuoraPostIds ? ' AND qpyv.id IS NULL' : ''
             ))
+            ->limit(1)
         ;
 
         if ($postedQuoraPostIds) {
