@@ -72,7 +72,7 @@ class App
                     CURLOPT_POST => 1,
                     CURLOPT_POSTFIELDS => json_encode([
                         'content' => $question,
-                        'link' => $postToPost['url']
+                        'link' => ''//$postToPost['url']
                     ]),
                     CURLOPT_HTTPHEADER => [
                         'Content-Type: application/json',
