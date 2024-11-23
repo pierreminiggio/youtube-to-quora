@@ -16,6 +16,6 @@
     },
     "require": {
         "pierreminiggio/database-fetcher": "^1.0",
-        "pierreminiggio/french-question-definer": "^1.0"
+        "pierreminiggio/french-question-definer": "^2.0"
     }
 }

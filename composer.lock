@@ -4,23 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8de9ace4953514fe8f55aac7c5859ebd",
+    "content-hash": "600ccebabad4a6d2600ecfe92ce40889",
     "packages": [
         {
             "name": "neutronstars/database-sql",
-            "version": "1.0.3",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Neutron-Pro/neutronstars-database-sql.git",
-                "reference": "fd9814cdc865e45f085da30cb27ea1ce39d7cfe4"
+                "reference": "6bcfc35df91579512e022844e095ab99bb8110ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Neutron-Pro/neutronstars-database-sql/zipball/fd9814cdc865e45f085da30cb27ea1ce39d7cfe4",
-                "reference": "fd9814cdc865e45f085da30cb27ea1ce39d7cfe4",
+                "url": "https://api.github.com/repos/Neutron-Pro/neutronstars-database-sql/zipball/6bcfc35df91579512e022844e095ab99bb8110ea",
+                "reference": "6bcfc35df91579512e022844e095ab99bb8110ea",
                 "shasum": ""
             },
             "require": {
+                "ext-pdo": "*",
                 "php": ">=7.4.0"
             },
             "require-dev": {
@@ -45,9 +46,9 @@
             "description": "Sql connector library for PHP",
             "support": {
                 "issues": "https://github.com/Neutron-Pro/neutronstars-database-sql/issues",
-                "source": "https://github.com/Neutron-Pro/neutronstars-database-sql/tree/1.0.3"
+                "source": "https://github.com/Neutron-Pro/neutronstars-database-sql/tree/1.0.7"
             },
-            "time": "2021-01-20T14:59:24+00:00"
+            "time": "2021-06-30T22:32:42+00:00"
         },
         {
             "name": "pierreminiggio/database-connection",
@@ -127,16 +128,16 @@
         },
         {
             "name": "pierreminiggio/french-question-definer",
-            "version": "1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierreminiggio/french-question-definer.git",
-                "reference": "3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6"
+                "reference": "025ddac2c116df95d778d1b64b671a9fdde643cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierreminiggio/french-question-definer/zipball/3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6",
-                "reference": "3d6e5ac69388c3a6f36625d51c8d8150ac5d67d6",
+                "url": "https://api.github.com/repos/pierreminiggio/french-question-definer/zipball/025ddac2c116df95d778d1b64b671a9fdde643cb",
+                "reference": "025ddac2c116df95d778d1b64b671a9fdde643cb",
                 "shasum": ""
             },
             "require": {
@@ -161,9 +162,9 @@
             "description": "Check if it's a french question",
             "support": {
                 "issues": "https://github.com/pierreminiggio/french-question-definer/issues",
-                "source": "https://github.com/pierreminiggio/french-question-definer/tree/1.0.0"
+                "source": "https://github.com/pierreminiggio/french-question-definer/tree/2.0.0"
             },
-            "time": "2021-01-30T20:58:13+00:00"
+            "time": "2024-11-23T13:39:20+00:00"
         }
     ],
     "packages-dev": [],
